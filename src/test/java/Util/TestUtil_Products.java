@@ -8,10 +8,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-public class TestUtil {
+public class TestUtil_Products {
 	static Workbook book;
 	static Sheet sheet;
-	public static String TESTDATA_SHEET_PATH ="C:\\Users\\t462204\\eclipse-workspace\\PSPrint\\src\\test\\java\\TestData\\DataSheet.xlsx";
+	public static String TESTDATA_SHEET_PATH ="C:\\Users\\t462204\\eclipse-workspace\\PSPrint\\src\\test\\java\\TestData\\DataSheet_Products.xlsx";
 	
 	public static Object[][] getTestData(String sheetName) throws InvalidFormatException {
 		FileInputStream file = null;
