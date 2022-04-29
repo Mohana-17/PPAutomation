@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -55,8 +56,10 @@ public class PlaceOrderInvitations {
 	}
 	
 	@Test(priority = 2, groups= {"Customized"}, dataProvider="Options")
-	  public void Customization(String PrintedSide,String Paper, String Size, String Envelope, String Quantity, String DesignFile, String Hardcopy, String ProductionTime, String MailingServices, String Holder, String CardType, String CardNumber, String Cvv) throws InterruptedException, IOException {
+	  public void Customization(String Row,String PrintedSide,String Paper, String Size, String Envelope, String Quantity, String DesignFile, String Hardcopy, String ProductionTime, String MailingServices, String Holder, String CardType, String CardNumber, String Cvv) throws InterruptedException, IOException {
 		//Customization of product option 
+		int row = Integer.valueOf(Row);
+		System.out.println(row);
 		Thread.sleep(2000);
 		WebElement search = driver.findElement(By.xpath("//input[@id='search-field']"));	
 		search.clear();
@@ -82,7 +85,7 @@ public class PlaceOrderInvitations {
 		String paper = Paper;
 		driver.findElement(By.id("papertype_greeting_cards")).sendKeys(paper);
 		driver.findElement(By.id("size_invitationcards")).sendKeys(Size);
-		driver.findElement(By.id("nprinted_envelopes_invitationcards")).sendKeys(Envelope);
+		driver.findElement(By.id("unprinted_envelopes_invitationcards")).sendKeys(Envelope);
 		String Qty = Quantity;
 		driver.findElement(By.id("quantity_50_10000")).sendKeys(String.valueOf(Qty));
 		if(PrintedSide.equalsIgnoreCase("Full Color Both Sides")) {
@@ -121,14 +124,12 @@ public class PlaceOrderInvitations {
 		driver.findElement(By.xpath("//select[@id='proof']")).sendKeys(Hardcopy);
 		driver.findElement(By.xpath("//select[@id='turnaround1235_recon']")).sendKeys(ProductionTime);
 		WebElement Cart = driver.findElement(By.xpath("//input[@value='Add to Cart']"));
-		if (Qty.equals("50")|| Qty.equals("100")|| Qty.equals("150")|| Qty.equals("200")|| Qty.equals("250")) {
+		if (Qty.equals("50")|| Qty.equals("100")|| Qty.equals("150")|| Qty.equals("200")|| Qty.equals("250")|| paper.equalsIgnoreCase("13 pt. 100% Recucled Matte Cover") || paper.equalsIgnoreCase("15 pt. Velvet with Soft-Touch")) {
 			System.out.println("Mailing is not possible for this quantity");
+			Thread.sleep(1500);
 			Cart.click();
 		}
-		else if (paper.equalsIgnoreCase("13 pt. 100% Recucled Matte Cover") || paper.equalsIgnoreCase("15 pt. Velvet with Soft-Touch")) {
-			System.out.println("Mailing is not possible for this Paper");
-			Cart.click();
-		}
+	
 		else {
 			 Actions mailOption= new Actions(driver);
 			 mailOption.sendKeys(Keys.PAGE_DOWN).build().perform();
@@ -140,8 +141,16 @@ public class PlaceOrderInvitations {
 			 Nxtbtn.sendKeys(Keys.PAGE_DOWN).build().perform();
 			 driver.findElement(By.xpath("//input[@value='Next']")).click();
 		}
-		driver.findElement(By.xpath("//div[@class='section-action']//a[@class='main-action']")).click();
-		Thread.sleep(2000);
+		Thread.sleep(1500);
+		WebElement Checkout1= driver.findElement(By.xpath("//div[@class='section-action']//a[@class='main-action']"));
+		WebElement Checkout2 = driver.findElement(By.xpath("(//a[@class='main-action'])[2]"));
+		if(Checkout1.isDisplayed()) 
+			Checkout1.click();		
+		else {
+			Thread.sleep(1500);
+			Checkout2.click();
+		}
+		Thread.sleep(1500);
 		driver.findElement(By.xpath("//label[normalize-space()='Credit Card']")).click();
 		driver.findElement(By.xpath("//input[@placeholder='Card holder Name']")).sendKeys(Holder);
 		WebElement cardType = driver.findElement(By.id("PaymentWidget-card-type"));
@@ -166,18 +175,21 @@ public class PlaceOrderInvitations {
 		driver.switchTo().frame("braintree-hosted-field-cvv");
 		driver.findElement(By.id("cvv")).sendKeys(Cvv);
 		driver.switchTo().defaultContent();
-		driver.findElement(By.xpath("//input[@value='Place Order']")).click();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.findElement(By.xpath("//img[@id='sa_close']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//input[@value='Place Order']")).click();	
+//		driver.findElement(By.xpath("//img[@id='sa_close']")).click();
+//		Thread.sleep(8000);
+//		String actualAlertText = driver.switchTo().alert().getText();
+//		Assert.assertEquals(actualAlertText, " Thank You for Your Order ");
+//
+//		System.out.println(actualAlertText);
+//		driver.switchTo().alert().dismiss();
 		Actions order= new Actions(driver);
 		order.sendKeys(Keys.PAGE_DOWN).build().perform();
-		Actions order1= new Actions(driver);
-		order1.sendKeys(Keys.PAGE_DOWN).build().perform();
 		String OrderNumber = driver.findElement(By.xpath("//span[@data-bind='text: jobId']")).getText();
 		System.out.println(OrderNumber);
-		int k=1;
-		obj.writeExcel("Invitations", OrderNumber, k, 1);
-		k++;
+		Thread.sleep(2000);
+		obj.writeExcel("Invitations", OrderNumber, row, 1);
 	}
 	
 }

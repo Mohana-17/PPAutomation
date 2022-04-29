@@ -3,12 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.PlaceOrderPostcards">
+      <class name="com.ReleaseToCMP">
         <methods>
+          <include name="SearchJob"/>
           <include name="setUp"/>
-          <include name="Customization" invocation-numbers="0"/>
         </methods>
-      </class> <!-- com.PlaceOrderPostcards -->
+      </class> <!-- com.ReleaseToCMP -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

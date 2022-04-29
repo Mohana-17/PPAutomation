@@ -15,20 +15,10 @@ public class WriteExcel {
 		FileInputStream fis = new FileInputStream(src);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet testSheet = wb.getSheet(sheetName);
-//		int rowCount= testSheet.getLastRowNum()-testSheet.getFirstRowNum();
-//		
-//		 for(int i=0; i<=rowCount;i++)
-//			 Cell cell = row.getCell(i);
-//		 if(cell == null)
-//			{
-//				cell=row.createCell(i);
-//				cell.setCellValue(OrderNumber);
-//			}
 		testSheet.getRow(row).createCell(col).setCellValue(cellValue);
 		FileOutputStream fout =new FileOutputStream(src);
 		wb.write(fout);
 		wb.close();
 		fout.close();	
 	}
-
 }
