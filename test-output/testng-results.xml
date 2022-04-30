@@ -1,93 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="1" failed="1" skipped="0">
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-04-29T12:45:03 IST" name="Default suite" finished-at="2022-04-29T12:45:31 IST" duration-ms="28212">
+  <suite started-at="2022-04-30T18:25:20 IST" name="Default suite" finished-at="2022-04-30T18:26:29 IST" duration-ms="68629">
     <groups>
     </groups>
-    <test started-at="2022-04-29T12:45:03 IST" name="Default test" finished-at="2022-04-29T12:45:31 IST" duration-ms="28212">
-      <class name="com.ReleaseToCMP">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.ReleaseToCMP@3232a28a]" started-at="2022-04-29T12:45:03 IST" name="setUp" finished-at="2022-04-29T12:45:12 IST" duration-ms="9773" status="PASS">
+    <test started-at="2022-04-30T18:25:20 IST" name="Default test" finished-at="2022-04-30T18:26:29 IST" duration-ms="68629">
+      <class name="com.PlaceOrderPostcards">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.PlaceOrderPostcards@1da2cb77]" started-at="2022-04-30T18:25:20 IST" name="setUp" finished-at="2022-04-30T18:25:26 IST" duration-ms="5659" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="VerifyLoginPage()[pri:0, instance:com.ReleaseToCMP@3232a28a]" started-at="2022-04-29T12:45:12 IST" name="VerifyLoginPage" finished-at="2022-04-29T12:45:15 IST" duration-ms="2756" status="PASS">
+        <test-method signature="VerifyLoginPage(java.lang.String, java.lang.String)[pri:1, instance:com.PlaceOrderPostcards@1da2cb77]" started-at="2022-04-30T18:25:28 IST" name="VerifyLoginPage" data-provider="ValidUser" finished-at="2022-04-30T18:25:32 IST" duration-ms="4196" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[cmp_uat@psptesting.com]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Bric@2018]]>
+              </value>
+            </param>
+          </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- VerifyLoginPage -->
-        <test-method signature="SearchJob()[pri:1, instance:com.ReleaseToCMP@3232a28a]" started-at="2022-04-29T12:45:15 IST" name="SearchJob" finished-at="2022-04-29T12:45:31 IST" duration-ms="15609" status="FAIL">
-          <exception class="org.openqa.selenium.ElementNotInteractableException">
-            <message>
-              <![CDATA[element not interactable
-  (Session info: chrome=100.0.4896.127)
-Build info: version: '4.1.2', revision: '9a5a329c5a'
-System info: host: 'TFD53035', ip: '161.211.210.15', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [db5295bfcf6771414365e9072a96887e, clickElement {id=a332e65c-41aa-45f4-9553-585d49cd0b32}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.127, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\t462204\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:62659}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:62659/devtoo..., se:cdpVersion: 100.0.4896.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on WINDOWS (db5295bfcf6771414365e9072a96887e)] -> xpath: (//input[contains(@value,'check_in_with_production_pool')])]
-Session ID: db5295bfcf6771414365e9072a96887e]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.ElementNotInteractableException: element not interactable
-  (Session info: chrome=100.0.4896.127)
-Build info: version: '4.1.2', revision: '9a5a329c5a'
-System info: host: 'TFD53035', ip: '161.211.210.15', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [db5295bfcf6771414365e9072a96887e, clickElement {id=a332e65c-41aa-45f4-9553-585d49cd0b32}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.127, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\t462204\AppData\Lo...}, goog:chromeOptions: {debuggerAddress: localhost:62659}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:62659/devtoo..., se:cdpVersion: 100.0.4896.127, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on WINDOWS (db5295bfcf6771414365e9072a96887e)] -> xpath: (//input[contains(@value,'check_in_with_production_pool')])]
-Session ID: db5295bfcf6771414365e9072a96887e
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:53)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:184)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:167)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:142)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:558)
-at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:251)
-at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:77)
-at com.ReleaseToCMP.SearchJob(ReleaseToCMP.java:67)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:132)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:599)
-at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:174)
-at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:822)
-at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:147)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-at org.testng.TestRunner.privateRun(TestRunner.java:764)
-at org.testng.TestRunner.run(TestRunner.java:585)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:384)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337)
-at org.testng.SuiteRunner.run(SuiteRunner.java:286)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1218)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1140)
-at org.testng.TestNG.runSuites(TestNG.java:1069)
-at org.testng.TestNG.run(TestNG.java:1037)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.ElementNotInteractableException -->
+        <test-method signature="Customization(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:2, instance:com.PlaceOrderPostcards@1da2cb77]" started-at="2022-04-30T18:25:33 IST" name="Customization" data-provider="Options" finished-at="2022-04-30T18:26:24 IST" duration-ms="51362" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[1]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Full Color Both Sides]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[4" x 6"]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[15pt. Velvet Cover]]>
+              </value>
+            </param>
+            <param index="4">
+              <value>
+                <![CDATA[None]]>
+              </value>
+            </param>
+            <param index="5">
+              <value>
+                <![CDATA[200]]>
+              </value>
+            </param>
+            <param index="6">
+              <value>
+                <![CDATA[upc46.pdf]]>
+              </value>
+            </param>
+            <param index="7">
+              <value>
+                <![CDATA[No Hardcopy]]>
+              </value>
+            </param>
+            <param index="8">
+              <value>
+                <![CDATA[3 Business Days]]>
+              </value>
+            </param>
+            <param index="9">
+              <value>
+                <![CDATA[Mail]]>
+              </value>
+            </param>
+            <param index="10">
+              <value>
+                <![CDATA[Standard]]>
+              </value>
+            </param>
+            <param index="11">
+              <value>
+                <![CDATA[test]]>
+              </value>
+            </param>
+            <param index="12">
+              <value>
+                <![CDATA[VISA]]>
+              </value>
+            </param>
+            <param index="13">
+              <value>
+                <![CDATA[4111111111111111]]>
+              </value>
+            </param>
+            <param index="14">
+              <value>
+                <![CDATA[686.0]]>
+              </value>
+            </param>
+          </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- SearchJob -->
-      </class> <!-- com.ReleaseToCMP -->
+        </test-method> <!-- Customization -->
+        <test-method is-config="true" signature="setDown()[pri:0, instance:com.PlaceOrderPostcards@1da2cb77]" started-at="2022-04-30T18:26:24 IST" name="setDown" finished-at="2022-04-30T18:26:29 IST" duration-ms="4726" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setDown -->
+      </class> <!-- com.PlaceOrderPostcards -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

@@ -10,8 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.openqa.selenium.Keys;
@@ -23,7 +23,7 @@ public class PlaceOrderInvitations {
 	WebDriver driver;
 	WriteExcel obj = new WriteExcel();
 	
-	@BeforeClass
+	@BeforeTest
 	public void setUp() {
 		System.out.println("Starting the browser session");
 		WebDriverManager.chromedriver().setup();
@@ -55,9 +55,8 @@ public class PlaceOrderInvitations {
 		return data;
 	}
 	
-	@Test(priority = 2, groups= {"Customized"}, dataProvider="Options")
-	  public void Customization(String Row,String PrintedSide,String Paper, String Size, String Envelope, String Quantity, String DesignFile, String Hardcopy, String ProductionTime, String MailingServices, String Holder, String CardType, String CardNumber, String Cvv) throws InterruptedException, IOException {
-		//Customization of product option 
+	@Test(priority = 2, dataProvider="Options")
+	  public void Customization(String Row, String PrintedSide,String Paper, String Size, String Envelope, String Quantity, String DesignFile, String Hardcopy, String ProductionTime, String DeliveryMethod, String MailingServices, String Holder, String CardType, String CardNumber, String Cvv) throws InterruptedException, IOException {
 		int row = Integer.valueOf(Row);
 		System.out.println(row);
 		Thread.sleep(2000);
@@ -72,12 +71,10 @@ public class PlaceOrderInvitations {
 		if (PrintedSide.equalsIgnoreCase("Full Color Both Sides")) {
 			Select Front = new Select(printSide);
 			Front.selectByIndex(1);
-			System.out.println("Selected Full Color Both Sides");
 		}
 		else {
 			Select Full = new Select(printSide);
 			Full.selectByIndex(0);
-			System.out.println("Selected Color Front and Blank Back");
 		}
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
 		Actions scrolldown= new Actions(driver);
@@ -134,12 +131,20 @@ public class PlaceOrderInvitations {
 			 Actions mailOption= new Actions(driver);
 			 mailOption.sendKeys(Keys.PAGE_DOWN).build().perform();
 			 Thread.sleep(2000);
-			 driver.findElement(By.xpath("//input[@id='mail-delivery']")).click();
-			 driver.findElement(By.id("mail")).sendKeys(MailingServices);
-			 Cart.click();
-			 Actions Nxtbtn= new Actions(driver);
-			 Nxtbtn.sendKeys(Keys.PAGE_DOWN).build().perform();
-			 driver.findElement(By.xpath("//input[@value='Next']")).click();
+			 WebElement Ship = driver.findElement(By.xpath("//input[@id='ship-delivery']"));
+			 WebElement Mail = driver.findElement(By.xpath("//input[@id='mail-delivery']"));
+			 if(DeliveryMethod.equalsIgnoreCase("Ship")) {
+				 Ship.click();
+				 Cart.click();
+			 }
+			 else {
+				 Mail.click();
+				 driver.findElement(By.id("mail")).sendKeys(MailingServices);
+				 Cart.click();
+				 Actions Nxtbtn= new Actions(driver);
+				 Nxtbtn.sendKeys(Keys.PAGE_DOWN).build().perform();
+				 driver.findElement(By.xpath("//input[@value='Next']")).click();
+			 }	 	
 		}
 		Thread.sleep(1500);
 		WebElement Checkout1= driver.findElement(By.xpath("//div[@class='section-action']//a[@class='main-action']"));
@@ -150,7 +155,7 @@ public class PlaceOrderInvitations {
 			Thread.sleep(1500);
 			Checkout2.click();
 		}
-		Thread.sleep(1500);
+		Thread.sleep(3000);
 		driver.findElement(By.xpath("//label[normalize-space()='Credit Card']")).click();
 		driver.findElement(By.xpath("//input[@placeholder='Card holder Name']")).sendKeys(Holder);
 		WebElement cardType = driver.findElement(By.id("PaymentWidget-card-type"));
@@ -189,7 +194,13 @@ public class PlaceOrderInvitations {
 		String OrderNumber = driver.findElement(By.xpath("//span[@data-bind='text: jobId']")).getText();
 		System.out.println(OrderNumber);
 		Thread.sleep(2000);
-		obj.writeExcel("Invitations", OrderNumber, row, 1);
+		obj.writeExcel("Invitations", OrderNumber, row, 2);
+	}
+	
+	@AfterTest
+	public void setDown() {
+		driver.close();
+		driver.quit();		
 	}
 	
 }
