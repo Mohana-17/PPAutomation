@@ -9,7 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import Util.ReadExcel;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -17,7 +18,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class ReleaseToCMP{
 	WebDriver driver;
 	ReadExcel excel = new ReadExcel();
-	@BeforeClass
+	
+	@BeforeTest
 	public void setUp() {
 		System.out.println("Starting the browser session");
 		WebDriverManager.chromedriver().setup();
@@ -38,8 +40,9 @@ public class ReleaseToCMP{
 	
 	@Test(priority=1)
 	public void SearchJob() throws EncryptedDocumentException, InvalidFormatException, IOException, InterruptedException {
-		excel.setExcelFile("GreetingCards");
+		excel.setExcelFile("Invitations");
 		String OrderNumber = excel.getCellData("OrderNumber", 1);
+		//String OrderNumber = ""
         String[] arrOfStr = OrderNumber.split("-", 2);
         String Order = null , Job = null ;
         String Conjunction = "_";
@@ -57,7 +60,7 @@ public class ReleaseToCMP{
 	    dropdown.selectByVisibleText("Job Number");
 	    driver.findElement(By.xpath("//input[@ng-model='filters.searchby_field_value']")).sendKeys(Job);
 	    Thread.sleep(1500);
-	    driver.findElement(By.xpath("//input[@ng-model='filters.include_test_jobs']")).click();
+	    //driver.findElement(By.xpath("//input[@ng-model='filters.include_test_jobs']")).click();
 	    driver.findElement(By.xpath("//button[normalize-space()='Submit']")).click();
 	    String status = driver.findElement(By.xpath("(//div[@role='gridcell'])[17]")).getText(); 
 		if(status.equalsIgnoreCase("CMP Pending")) {
@@ -78,5 +81,10 @@ public class ReleaseToCMP{
 		else {
 			System.out.println("Current status of the order is "+status);
 		}
+	}
+	
+	@AfterTest
+	public void setDown() {
+		driver.quit();		
 	}
 }

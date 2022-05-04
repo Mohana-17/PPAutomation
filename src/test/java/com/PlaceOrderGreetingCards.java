@@ -2,7 +2,6 @@ package com;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Calendar;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -10,14 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import Objects.BaseTest;
 import Util.TestUtil_Products;
 import Util.WriteExcel;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -25,10 +22,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class PlaceOrderGreetingCards {
 	WebDriver driver;
 	WriteExcel obj = new WriteExcel();
+	BaseTest objrepo;
 	
 	@BeforeTest
 	public void setUp() {
-		System.out.println("Starting the browser session");
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
@@ -43,18 +40,8 @@ public class PlaceOrderGreetingCards {
 	
 	@Test(priority=1, dataProvider="ValidUser")
 	  public void VerifyLoginPage(String Username, String Password) throws InterruptedException  {
-		 driver.get("https://www.nonprod-psprint.com/");
-		 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-		 driver.findElement(By.xpath("//button[contains(text(),'No thanks')]")).click();
-		 driver.findElement(By.id("login-dropdown")).click();
-		 Thread.sleep(1500);
-		 driver.findElement(By.id("UserName")).sendKeys(Username);
-		 driver.findElement(By.id("Password")).sendKeys(Password);
-		 driver.findElement(By.className("sign-in")).click();
-		 Thread.sleep(2000);
-		 String expectedUser = "Hello, Brady";
-		 String Customername = driver.findElement(By.xpath("//div[@class='user-name']")).getText();
-		 Assert.assertEquals(Customername, expectedUser);
+		 objrepo = new BaseTest(driver);
+		 objrepo.login(Username, Password);
 	  }
 		
 	@DataProvider
@@ -64,18 +51,9 @@ public class PlaceOrderGreetingCards {
 	}
 	
 	@Test(priority = 2, dataProvider="Options")
-	  public void Customization(String Row, String PrintedSide, String Paper, String Size, String Envelopes, String Folding, String Quantity, String DesignFile, String HardcopyProof, String ProductionTime, String DeliveryMethod, String MailingServices, String Holder, String CardType, String CardNumber, String Cvv) throws InterruptedException, IOException {
+	  public void Customization(String Row, String Product, String PrintedSide, String Paper, String Size, String Envelopes, String Folding, String Quantity, String DesignFile, String HardcopyProof, String ProductionTime, String DeliveryMethod, String MailingServices) throws InterruptedException, IOException {
 		int row = Integer.valueOf(Row);
-		Thread.sleep(2000);
-//		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-//		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("search-field")));
-		WebElement search = driver.findElement(By.xpath("//input[@id='search-field']"));	
-		search.clear();
-		search.sendKeys("Greeting Cards");
-		Thread.sleep(2000);
-		Actions action = new Actions(driver);
-		action.sendKeys(Keys.ENTER).build().perform();
-		Thread.sleep(1500);
+		objrepo.SelectProduct(Product);
 		WebElement printSide = driver.findElement(By.xpath("//select[@id='colors_inside_outside']"));
 		if (PrintedSide.equalsIgnoreCase("Full Color Both Sides")) {
 			Select Front = new Select(printSide);
@@ -88,120 +66,30 @@ public class PlaceOrderGreetingCards {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
 		Actions scrolldown= new Actions(driver);
 		scrolldown.sendKeys(Keys.PAGE_DOWN).build().perform();
-		String paper = Paper;
-		driver.findElement(By.id("papertype_greeting_cards")).sendKeys(paper);
+		String PaperType = Paper;
+		driver.findElement(By.id("papertype_greeting_cards")).sendKeys(PaperType);
 		driver.findElement(By.id("size_greetingcards")).sendKeys(Size);
 		driver.findElement(By.id("unprinted_envelopes")).sendKeys(Envelopes);
 		driver.findElement(By.id("folding")).sendKeys(Folding);
 		String Qty = Quantity;
 		driver.findElement(By.id("quantity_50_10000")).sendKeys(Quantity);
-		if(PrintedSide.equalsIgnoreCase("Full Color Both Sides")) {
-			 for(int i=0; i<2; i++) {
-				 if(i==0) {
-					 driver.findElement(By.xpath("(//a[@data-bind='click: showMyFiles'][normalize-space()='Select from My Files'])[1]")).click();
-				 }
-				 else {
-					 Thread.sleep(3000);
-					 driver.findElement(By.xpath("(//a[@data-bind='click: showMyFiles'][normalize-space()='Select from My Files'])[2]")).click();
-				 }
-				 driver.findElement(By.className("myartwork-txtsearchmedia")).clear();
-				 driver.findElement(By.className("myartwork-txtsearchmedia")).sendKeys(DesignFile);
-				 Actions add = new Actions(driver);
-				 add.sendKeys(Keys.ENTER).build().perform();
-				 add.sendKeys(Keys.PAGE_DOWN).build().perform();
-				 Thread.sleep(2000);
-				 driver.findElement(By.xpath("//input[@value='Select']")).click();
-			 }
-			 
-		 }
-		 else {
-			 	driver.findElement(By.xpath("(//a[@data-bind='click: showMyFiles'][normalize-space()='Select from My Files'])[1]")).click();
-			 	driver.findElement(By.className("myartwork-txtsearchmedia")).clear();
-			 	driver.findElement(By.className("myartwork-txtsearchmedia")).sendKeys(DesignFile);
-			 	driver.findElement(By.xpath("//a[normalize-space()='3']")).click();
-			 	Actions add = new Actions(driver);
-			 	add.sendKeys(Keys.ENTER).build().perform();
-			 	add.sendKeys(Keys.PAGE_DOWN).build().perform();
-			 	Thread.sleep(2000);
-			 	driver.findElement(By.xpath("//input[@value='Select']")).click();
-		}
-		Thread.sleep(3000);
-		driver.findElement(By.xpath("//button[@style='display: block;']")).click();
+		objrepo.Design(PrintedSide, DesignFile);		
 		driver.findElement(By.id("proof")).sendKeys(HardcopyProof);
 		driver.findElement(By.id("turnaround1235_recon")).sendKeys(ProductionTime);
-		Thread.sleep(3000);
-		WebElement Cart = driver.findElement(By.xpath("//input[@value='Add to Cart']"));
-			if (Qty.equals("50")|| Qty.equals("100")|| Qty.equals("150")|| Qty.equals("200")|| Qty.equals("250")) {
-				Cart.click();
-			}
-			else if (paper.equalsIgnoreCase("15 pt. Velvet with Soft-Touch")) {
-				Cart.click();
-			}
-			else {
-				 Actions mailOption= new Actions(driver);
-				 mailOption.sendKeys(Keys.PAGE_DOWN).build().perform();
-				 Thread.sleep(2000);
-				 WebElement Ship = driver.findElement(By.xpath("//input[@id='ship-delivery']"));
-				 WebElement Mail = driver.findElement(By.xpath("//input[@id='mail-delivery']"));
-				 if(DeliveryMethod.equalsIgnoreCase("Ship")) {
-					 Ship.click();
-					 Cart.click();
-				 }
-				 else {
-					 Mail.click();
-					 driver.findElement(By.id("mail")).sendKeys(MailingServices);
-					 Cart.click();
-					 Actions Nxtbtn= new Actions(driver);
-					 Nxtbtn.sendKeys(Keys.PAGE_DOWN).build().perform();
-					 driver.findElement(By.xpath("//input[@value='Next']")).click();
-				 }	 				 				 
-			}
-			Thread.sleep(1500);
-			WebElement Checkout1= driver.findElement(By.xpath("//div[@class='section-action']//a[@class='main-action']"));
-			WebElement Checkout2 = driver.findElement(By.xpath("(//a[@class='main-action'])[2]"));
-			if(Checkout1.isDisplayed()) {
-				Checkout1.click();
-			}
-			else {
-				Thread.sleep(1500);
-				Checkout2.click();
-			}
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//label[normalize-space()='Credit Card']")).click();
-			driver.findElement(By.xpath("//input[@placeholder='Card holder Name']")).sendKeys(Holder);
-			WebElement cardType = driver.findElement(By.id("PaymentWidget-card-type"));
-			Select card = new Select(cardType);
-			card.selectByValue(CardType);
-			driver.switchTo().frame("braintree-hosted-field-number");
-			driver.findElement(By.id("credit-card-number")).sendKeys(CardNumber);
-			driver.switchTo().defaultContent();
-			driver.switchTo().frame("braintree-hosted-field-expirationMonth");
-			int ExpiryMonth = Calendar.getInstance().get(Calendar.MONTH);
-			WebElement ExpMon= driver.findElement(By.id("expiration-month"));
-			Select Month= new Select(ExpMon);
-			Month.selectByValue(String.valueOf(ExpiryMonth));
-			driver.switchTo().defaultContent();
-			driver.switchTo().frame("braintree-hosted-field-expirationYear");
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			int ExpiryYear = year + 3;
-			WebElement Expyear= driver.findElement(By.id("expiration-year"));
-			Select Year= new Select(Expyear);
-			Year.selectByValue(String.valueOf(ExpiryYear));
-			driver.switchTo().defaultContent();
-			driver.switchTo().frame("braintree-hosted-field-cvv");
-			driver.findElement(By.id("cvv")).sendKeys(Cvv);
-			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath("//input[@value='Place Order']")).click();
-			Thread.sleep(2000);
-			Actions order= new Actions(driver);
-			order.sendKeys(Keys.PAGE_DOWN).build().perform();
-			String OrderNumber = driver.findElement(By.xpath("//span[@data-bind='text: jobId']")).getText();
-			System.out.println(OrderNumber);
-			obj.writeExcel("GreetingCards", OrderNumber, row, 2);
-		}
+		String Delivery= DeliveryMethod;
+		String Services= MailingServices;
+		objrepo.AddToCart(Qty, PaperType, Delivery,Services);
+		objrepo.CheckoutAndPayment();
+		Thread.sleep(2000);
+		Actions order= new Actions(driver);
+		order.sendKeys(Keys.PAGE_DOWN).build().perform();
+		String OrderNumber = driver.findElement(By.xpath("//span[@data-bind='text: jobId']")).getText();
+		System.out.println(OrderNumber);
+		obj.writeExcel("GreetingCards", OrderNumber, row, 2);
+	}
+	
 	@AfterTest
 	public void setDown() {
-		driver.close();
 		driver.quit();
 		
 	}
